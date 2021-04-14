@@ -10,3 +10,28 @@ future updates:
   3. fix bugs with percentage hikes
   4. clear table upon new request
   5. add sample career projction for certain popular positions
+
+pseudo code structure:
+  
+  get input values
+  instantiate output vaiables
+  
+  for loop for period of calculation{
+    if promotion{
+      if percentage based promotion{
+        set output values
+      }else if absolute based promotion{
+        set output values
+      }
+    }
+    else if 1st year{
+      set output values
+    }
+    else if not first year and no promotion{
+      set output values
+    }
+    
+    append output to html table
+  }
+  
+  other helper functions
