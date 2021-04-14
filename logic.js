@@ -1,120 +1,140 @@
 
-function getpromos(x){
-    let y = [];
-    for(i=0,k=x.length;i<k;i++){
-        y.push(x[i].value);
-    }
-    // console.log(y)
-    return y;   
-}    
+function main() {
 
-function output(yea,initi,allo,tot,G){
-    // console.log('output working')
+    const initial = document.getElementById('initial').value;
+    let allowancerate = parseFloat(document.getElementById('allowances').value);
+    let GR = parseFloat(document.getElementById('growthrate').value);
+    const time = parseFloat(document.getElementById('time').value);
 
-    /* TO APPEND DATA TO HTML TABLE */
-    let values =[initi,allo,to,G];
-    values = values.map( a => parseInt(a));
-    values = values.map(a => a.toFixed(2));
-    let table = document.getElementById('result');
-    let row = document.createElement('TR');
-    row.innerHTML = `
-    <tr>
-        <td>${yea}</td>
-        <td>${initi}</td>
-        <td>${allo}</td>
-        <td>${tot}</td>
-        <td>${G}</td>
-    <tr>`;
-    table.appendChild(row);
-
-    // console.log(yea,initi,allo,tot)
-    // console.log(row);
-}
-
-// console.log('its working')
-
-function calculate(){
-
-    // console.log('function working')
-    
-    /** GET INPUT VALUES */
-
-    let initial = document.getElementById('initial').value;
-    let allowancerate = document.getElementById('allowances').value;
-    let GR = document.getElementById('growthrate').value;
-    let time = document.getElementById('time').value;
+    let starting = 0;
+    let allowance = 0;
+    let G = 0;
     let total = 0 ;
-    let pGR = 0;
+    
     let promo_years = document.getElementsByName('promotion');
     let promo_amount = document.getElementsByName('end');
 
-    // console.log(promo_amount,promo_years);
+    promo_years = sanitize_years(get_promotions(promo_years));
+    promo_amount = get_promotions(promo_amount);
 
-    promo_years = getpromos(promo_years);
-    promo_amount = getpromos(promo_amount);
+    for(i=0;i<time;i++){
 
-    // console.log(promo_amount,promo_years);
-
-
-    /** LOOP TO CALCULATE RESULTS FOR EACH YEAR */
-
-    for(let i=0; i < time ; i++){
-
-        /* CHECK IF THIS YEAR IS PROMOTION */
-         if( i == promo_years[0]){
-
-             /** IF HIKED SALARY GIVEN IN PERCENTAGE */
-
-            if(promo_amount[0].includes('%')){
-                pGR = promo_amount[0];
-                pGR.replace('%','');
-                parseInt(pGR);
-                console.log(initial);
-                initial = initial + (initial * (pGR/100));
-                allowance = initial * (allowancerate/100);
-                console.log(initial);
-            }
-            /** IF ABSOLUTE AMOUNT */
-            else{
-                initial = promo_amount[0];
-                parseInt(initial);
-                allowance = initial * (allowancerate/100);
-            }
-            total = parseInt(initial) + parseInt(allowance);
-            promo_amount.shift();
-            promo_years.shift();
-           
-    
-        }
-
-        /** IF NO PROMOTION */
-        // console.log('loop working')
-        else if (i !== 0){
-            initial = initial * ( 1 + (GR/100));
-            allowance = initial * (allowancerate/100);
-            total = initial + allowance;
-            // console.log('year',i)
-        }
-
-        /** NO GROWTH RATE FOR YEAR 0*/
-        else if( i == 0){
-            initial = initial;
-            allowance = initial * (allowancerate/100);
-            total = parseInt(initial) + (allowance);
-            // console.log('first year');
-        }
+        results = calculate(i, starting, allowancerate,promo_amount,promo_years,GR);
+        console.log(results);
         
-        /** KEEP TRACK OF YEAR IN TABLE*/
-        let year = i+1;
+        i = results.i;
+        let year = i + 1;
+        starting = parseFloat(results.starting);
+        starting = parseFloat(starting);
+        allowance = parseFloat(starting)  * parseFloat(allowancerate/100);
+        allowance = parseFloat(allowance);
+        total = parseFloat(starting) + parseFloat(allowance);
+        total = parseFloat(total);
+        G = parseFloat(results.G);
 
-        let values =[initial,allowance,total,GR];
-        values = values.map( a => parseInt(a));
-        values = values.map(a => a.toFixed(2));
+        output(year,starting.toFixed(2),allowance.toFixed(2),total.toFixed(2),G.toFixed(2));
 
-        /** OUTPUT TO TABLE */
-        output(year,initial,allowance,total,GR);  
+    }
+
+}
+
+
+function calculate(i, starting, allowancerate,promo_amount,promo_years,GR){
+    if(i == promo_years[0]){
+        if(promo_amount[0].includes('%')){
+            G = clear_mark(promo_amount[0], '%');
+            //i was incremented at this line for some unknown reason causing skipped years
+            console.log(i, 'after G')
+            starting = parseFloat(starting) * (1 + (parseFloat(G)/100));
+            // console.log(i, G, starting, allowance, total, typeof(total));
+            return {
+                i : i ,
+                starting : starting,
+                G : G
+            }
+        }
+        else{
+            //if absolute amount
+            let prev_start = starting;
+            starting = promo_amount[0];
+            G = ((starting/prev_start) -1 ) *100 ;
+            return {
+                i : i ,
+                starting : starting,
+                G : G
+            }
+        }
+        promo_amount.shift();
+        promo_years.shift();
+
+    }
+    //if year 0
+    else if(i == 0){
+        starting = parseFloat(initial);
+        G = 0;
+        return {
+            i : i ,
+            starting : parseFloat(starting),
+            G : G
+        }
+    }
+    else{
+        //else if no promotion
+        starting = parseFloat(starting)  * (1 + (parseFloat(GR)/100));
+        G = GR;
+        return {
+            i : i ,
+            starting : starting,
+            G : G
+        }
     }
 }
 
+function clear_mark(str, mrk) {
+    int = '';
+    for(i=0, l=str.length; i<l ; i++){
+        if(str[i] != mrk){
+            int += str[i];
+        }
+    }
+    int = parseFloat(int);
+    return int;
+}
+
+function get_promotions(x){
+    let new_array = [];
+    for(i=0,k=x.length;i<k;i++){
+        new_array.push(x[i].value);
+    }
+    // console.log(new_array)
+    return new_array; 
+}
+
+function sanitize_years(array) {
+    let new_array = [];
+    for(i = 0, k = array.length; i<k ;i++){
+        array[i] != '' || array[i] != 0? new_array.push(array[i]): new_array = new_array;
+    }
+    return new_array;
+}
+
+function output(yea,initi,allo,tot,G){
+    
+    /* TO APPEND DATA TO HTML TABLE */
+
+    let table = document.getElementById('result');
+    let row = document.createElement('TR');
+    row.innerHTML = `
+        <tr>
+            <td>${yea}</td>
+            <td>${initi}</td>
+            <td>${allo}</td>
+            <td>${tot}</td>
+            <td>${G}</td>
+        <tr>`;
+        table.appendChild(row);
+}
+
+
 /** LISTEN FOR FUNCTION CALL */
-document.getElementById('do').addEventListener('click', calculate);
+document.getElementById('do').addEventListener('click', main);
