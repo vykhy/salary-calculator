@@ -11,4 +11,33 @@ future updates:
   2. integrate CSS/bootstrap styling	--not completed, basic aligning completed in v2.0
   3. fix bugs with percentage hikes		--fixed in v2.0
   4. clear table upon new request
+<<<<<<< HEAD
   5. add sample career projection for certain popular positions
+=======
+  5. add sample career projction for certain popular positions
+
+pseudo code structure:
+  
+  get input values
+  instantiate output vaiables
+  
+  for loop for period of calculation{
+    if promotion{
+      if percentage based promotion{
+        set output values
+      }else if absolute based promotion{
+        set output values
+      }
+    }
+    else if 1st year{
+      set output values
+    }
+    else if not first year and no promotion{
+      set output values
+    }
+    
+    append output to html table
+  }
+  
+  other helper functions
+>>>>>>> refs/remotes/origin/main
