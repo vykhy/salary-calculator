@@ -4,22 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Salary growth calculato</title>
 </head>
 <body>
 <div class="container">
+    <h1>Estimate your career progression, complete with hikes and promotions</h1>
     <div class="form-container">
         <div class="input">
-            <input type="numbers" placeholder="Initial salary" id = 'initial' >
-            <input type="numbers" placeholder="allowances as % of base salary"  id = 'allowances'>
-            <input type="numbers" placeholder="growth rate(%)" id = 'growthrate' >
-            <input type="numbers" placeholder="years to calculate" id = 'time' >
-            <input type="button" id= 'do'>   
+            <label>base starting salary</label> <br>
+            <input type="numbers" placeholder="Initial salary" value="5" id = 'initial' ><br>
+            <label for="">percentage of allowances</label><br>
+            <input type="numbers" placeholder="allowances as % of base salary" value="5" id = 'allowances'><br>
+            <label for="">growth rate</label><br>
+            <input type="numbers" placeholder="growth rate(%)" id = 'growthrate' value="5"><br>
+            <label for="">years to calculate</label><br>
+            <input type="numbers" placeholder="years to calculate" id = 'time' value="10"><br> 
+        </div>
+        <div class="info">
+            Enter expected pay hike details. Year at which major hike is 
+            expected, followed by the amount of hike, either in terms of percentage
+             -eg '30%', or value of new hiked salary- eg '50000'.
         </div>
         <div class="promos">
             <div class="promo">
-                <input type ='numbers' name = 'promotion' placeholder="year" >
-                <input type="text" name="end" placeholder="hike" >
+                <input type ='numbers' name = 'promotion' placeholder="year" value="3">
+                <input type="text" name="end" placeholder="hike" value="30%">
+            </div>
+            <div class="promo">
+                <input type ='numbers' name = 'promotion' placeholder="year" value="5">
+                <input type="text" name="end" placeholder="hike" value="100%">
             </div>
             <div class="promo">
                 <input type ='numbers' name = 'promotion' placeholder="year">
@@ -29,12 +43,9 @@
                 <input type ='numbers' name = 'promotion' placeholder="year">
                 <input type="text" name="end" placeholder="hike">
             </div>
-            <div class="promo">
-                <input type ='numbers' name = 'promotion' placeholder="year">
-                <input type="text" name="end" placeholder="hike">
-            </div>
-            <button id="add">Add promotion slot</button>
-    </div>
+        </div>
+        <button id="add">Add promotion slot</button><br>
+        <button id= 'do' > calculate </button>
 </div>
     
     <table id = 'result'>
@@ -47,6 +58,6 @@
         </tr>
     </table>
 
-    <script src="logic-working-version.js"></script>
+    <script src="logic.js"></script>
 </body>
 </html>

@@ -1,0 +1,63 @@
+html, input {
+    font-size: 130%;
+}
+input{
+    text-align: right;
+}
+body{
+    padding: 0;
+    margin: 0;
+}
+h1{
+    width: 80%;
+    margin: 1rem auto;
+    text-align: center;
+}
+.form-container{
+    margin: 2rem auto;
+    padding: 1.5rem 0;
+    width: 70%;
+    border: 1px solid black;
+    font-size: 1rem;
+    max-width: 25rem;
+}
+.input{
+    width: 80%;
+    margin: 1rem auto;
+}
+.input input{
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+.info{
+    width: 80%;
+    margin: 0 auto;
+}
+.promos{
+    margin: 1rem auto;
+    width: 80%;
+}
+.promo{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-top: .5rem;
+}
+.promo input{
+    width: 45%;
+}
+#add{
+    width: 80%;
+    margin: 1rem 10%;
+    padding: .5rem;
+}
+#do{
+    width: 80%;
+    padding: .5rem;
+    margin: 0 10%;
+    margin-bottom: 1rem;
+}
+#result{
+    margin: 1rem auto;
+}
